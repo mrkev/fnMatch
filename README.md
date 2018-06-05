@@ -1,6 +1,6 @@
 # fnMatch
 
-This is a very simple implementation of pattern matching using no syntax extensions. That means you can use it without a transpiler; just include it on your project/website.
+This is a very simple implementation of pattern matching using **no syntax extensions**. That means you can use it **without a transpiler**; just include it on your project/website.
 
 Instead of extending the language, it just uses functions. That's it.
 
@@ -61,7 +61,7 @@ func(
 
 Woah woah woah. Why would I want to do a pattern match by defining the patterns first and passing in the value later? Well, because this is an expression, and this way of doing things is useful for defining functions, _a la_ OCaml's `function` keyword:
 
-Ocaml:
+OCaml:
 
 ```ocaml
 let rec fib = function
@@ -80,20 +80,17 @@ let fib = func(
 );
 ```
 
-- And of course, these are **expressions** "match" and "func" are expressions evaluating to the return the value of the matched function, so this will work for example:
+- And of course, "match" and "func" are **expressions** evaluating to the return the value of the matched function. Here's a more complex example:
 
 ```javascript
 
 const process_response = func(
   ({ status: s = 200, data: d = null }) => Error("Data is null"),
   ({ status: s = 200, data: d = []}) => Error("Data is empty"),
-  ({ status: s = 200, data: d }) => d,
-  ({ errors: [h, ...t] }) =>
-    Error(`Non-empty errors. ${t.length + 1} total.`),
-  ({ status }) =>
-    Error(`Status ${status}, no errors reported`)
-  () =>
-    Error("Invalid response")
+  ({ status: s = 200, data }) => data, // return data
+  ({ errors: [h, ...t] }) => Error(`Non-empty errors. ${t.length + 1} total.`),
+  ({ status }) => Error(`Status ${status}, no errors reported`),
+  (_) => Error("Invalid response"),
 )
 
 const print_response = response => {
@@ -103,7 +100,46 @@ const print_response = response => {
 }
 ```
 
-Here it's worth noting that patterns are tested in order, from top to bottom.
+## Things to note
+
+- **Patterns are tested in order**, from top to bottom:
+
+```javascript
+
+// This prints "default"
+match({ name: "Ajay" })(
+  (_) => console.log("default"),
+  ({name}) => console.log(name),
+)
+
+// This prints "Ajay"
+match({ name: "Ajay" })(
+  ({name}) => console.log(name),
+  (_) => console.log("default"),
+)
+
+```
+
+- `() => {}` matches **_undefined_**, not **_all_** (aka, `() => {}` !== `(_) => {}`):
+
+```javascript
+
+// This prints "undefined"
+match()(
+  () => console.log('undefined'),
+  (_) => console.log('anything'),
+);
+
+// This prints "anything"
+match(3)(
+  () => console.log('undefined'),
+  (_) => console.log('anything'),
+);
+
+```
+
+- **Array semantics** are a little different how JS normally works:
+
 
 ### Array semantics
 
