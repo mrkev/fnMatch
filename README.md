@@ -138,7 +138,7 @@ match(3)(
 
 ```
 
-- **Array semantics** are a little different how JS normally works:
+- **Array semantics** are a little different from how JavaScript normally works:
 
 
 ### Array semantics
