@@ -10,7 +10,7 @@ It supports:
 
 ```javascript
 let group = {
-  class: "CS 3410",
+  course: "CS 3410",
   members: [
     {name: "Ajay", age: 22},
     {name: "Seung", age: 23},
@@ -18,10 +18,10 @@ let group = {
   ],
 }
 
-match(x)(
+match(group)(
   ({ club, members }) => {}, // doesn't match, missing "club"
-  ({ class, members: [first, ...rest]}) => {}, // matches!
-  ({ class, members }) => {}, // would match if previous didn't
+  ({ course, members: [first, ...rest]}) => {}, // matches!
+  ({ course, members }) => {}, // would match if previous didn't
 )
 ```
 
@@ -152,7 +152,7 @@ For the sake of usability, the semantics used for array matching are different f
 // Javascrpt
 (([x, ...y]) => console.log(x, y))([]) // logs "undefined []"
 
-// fn-match
+// fnMatch
 func(([x, ...y]) => console.log(x, y))([])   // logs nothing, doesn't match
 ```
 
@@ -163,7 +163,7 @@ func(([x, ...y]) => console.log(x, y))([])   // logs nothing, doesn't match
 // Javascrpt
 (([x, y]) => console.log(x, y))([1, 2, 3]) // logs "1 2"
 
-// fn-match
+// fnMatch
 func(([x, y]) => console.log(x, y))([1, 2, 3])   // logs nothing, doesn't match
 ```
 
