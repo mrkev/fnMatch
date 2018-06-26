@@ -1,8 +1,26 @@
+<center>![fnMatch](./docs/img/cheesy_logo.png)</center>
+
 # fnMatch
 
 This is a very simple implementation of pattern matching using **no syntax extensions**. That means you can use it **without a transpiler**; just include it on your project/website.
 
-Instead of extending the language, it just uses functions. That's it.
+## Installation
+
+- node
+
+```
+npm i fnMatch
+```
+
+- web
+
+```
+<script src="https://raw.githubusercontent.com/mrkev/fnMatch/master/dist/fnMatch.js"></script>
+```
+
+## Usage
+
+Instead of extending the language, it just uses **_functions_**. That's it.
 
 It supports:
 
