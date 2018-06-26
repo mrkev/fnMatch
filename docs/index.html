@@ -1,0 +1,282 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <title>Fsmgen by mrkev</title>
+
+  <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/github-light.css">
+  <link rel="stylesheet" href="./css/mui.css">
+  <meta name="viewport" content="width=device-width">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pegjs/0.9.0/peg.min.js"></script>
+  <script src="../dist/fnMatch.js"></script>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/is_js/0.8.0/is.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/codemirror.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/codemirror.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/addon/selection/active-line.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/mode/javascript/javascript.js"></script>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <style type="text/css">
+    .CodeMirror {
+      line-height: 1.1em;
+      width: 100%, ;
+      height: 100%;
+    }
+  </style>
+  <!-- load MUI -->
+  <!-- <link href="//cdn.muicss.com/mui-0.9.1/css/mui.min.css" rel="stylesheet" type="text/css" /> -->
+  <style>
+    #saves {
+      list-style-type: none;
+      padding: 0px 12px;
+    }
+
+    #saves li button,
+    #saves li a {
+      font-family: monospace;
+    }
+  </style>
+  <script src="//cdn.muicss.com/mui-0.9.1/js/mui.min.js"></script>
+
+  <style>
+    svg {
+      margin: 20px;
+    }
+
+    textarea {
+      width: 100%;
+    }
+
+    .code_error {
+      background-color: #f93;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+
+    <!--******************************** HEADER. ********************************-->
+
+    <header>
+
+      <h1>fnMatch</h1>
+      <p>Pattern matching without a transpiler.</p>
+
+      <ol class="mui-tabs__bar">
+        <li class="mui--is-active">
+          <a data-mui-toggle="tab" data-mui-controls="pane-usage">Usage</a>
+        </li>
+        </li>
+        <li>
+          <a data-mui-toggle="tab" data-mui-controls="pane-values">Values</a>
+        </li>
+        <li>
+          <a data-mui-toggle="tab" data-mui-controls="pane-arrays">Arrays</a>
+        </li>
+        <li>
+          <a data-mui-toggle="tab" data-mui-controls="pane-objects">Objects</a>
+        </li>
+        <li>
+          <a data-mui-toggle="tab" data-mui-controls="pane-notes">Notes</a>
+        </li>
+      </ol>
+
+      <div class="mui-tabs__pane mui--is-active" id="pane-usage">
+
+        <h3>Usage</h3>
+
+        <pre>
+match(value)(pattern1, pattern2, ...etc)
+func(pattern1, pattern2, ...etc)(value)</pre>
+
+        <h3>Learn More</h3>
+
+        <p class="view">
+          <a href="https://github.com/mrkev/fsmgen">View the Project on GitHub
+            <small>mrkev/fsmgen</small>
+          </a>
+        </p>
+        <p>
+          <small>Hosted on GitHub Pages &mdash; Theme by
+            <a href="https://github.com/orderedlist">orderedlist</a>
+          </small>
+        </p>
+
+      </div>
+
+      <div class="mui-tabs__pane" id="pane-values">
+        <h3>Values</h3>
+<pre>
+match("hello")(
+  (_ = "hey") => {}, // doesn't match
+  (_ = "world") => {}, // doesn't match
+  (_ = "hello") => {}, // matches!
+)
+</pre>
+
+<h3>"Nothing" vs "Anything"</h3>
+
+<pre>
+
+// Prints "undefined"
+match()(
+  () => console.log('undefined'),
+  (_) => console.log('anything'),
+);
+
+// Prints "anything"
+match(3)(
+  () => console.log('undefined'),
+  (_) => console.log('anything'),
+);
+
+</pre>
+
+
+      </div>
+
+      <div class="mui-tabs__pane" id="pane-arrays">
+
+        <h3>OCaml-like exact semantics</h3>
+<pre>// This prints nothing
+match([])(
+  ([x, ...y]) => console.log(x, y)
+)
+</pre>
+
+      </div>
+
+      <div class="mui-tabs__pane" id="pane-objects">
+
+        <h3>Destructuring</h3>
+
+<pre>
+const contacts = [
+  {name: {first: "Ajay"}, last: "Gandhi"},
+  {name: {first: "Seunghee", last: "Han"}},
+  {name: "Evil Galactic Empire, Inc.", kind: "company"}
+]
+match(contacts)(
+  ([{kind = "company", name}, ..._]) => console.log("Found company:", name)
+)
+</pre>
+<h3>Renaming</h3>
+<pre>
+const contacts = [
+  {name: {first: "Ajay"}, last: "Gandhi"},
+  {name: {first: "Seunghee", last: "Han"}},
+  {name: "Evil Galactic Empire, Inc.", kind: "company"}
+]
+match(contacts)(
+  ([{name: {first:first_person}}, ..._]) => console.log("First contact is", first_person)
+)
+</pre>
+
+
+      </div>
+
+      <div class="mui-tabs__pane" id="pane-notes">
+
+        <h3>Top to bottom</h3>
+        <pre>
+// Prints "matches"
+match({name: "Ajay", age: 22})(
+  ({name}) => console.log("matches"),
+  ({name, age}) => console.log("too late!")
+)
+</pre>
+
+      <h3>It's an expression</h3>
+        <pre>
+const a = match(3)(
+  (_ = 3) => 4,
+  (_) => 0,
+);
+console.log(a) // Prints 4
+</pre>
+
+        <h3>It's Just Functions<sup>&trade;</sup></h3>
+
+        <pre>
+const value = {
+  name: 'Ajay',
+  value: {
+    x: 34,
+  },
+};
+
+function destructNotes ({notes}) { return notes; }
+let destructErrors = ({ errors }) => errors;
+let destructResult = function ({result}) { return result; }
+
+let getResult = func(
+  destructNotes,
+  destructErrors,
+  destructResult
+);
+
+console.log(getResult({notes: "This works!"}))
+</pre>
+
+
+      </div>
+
+
+    </header>
+
+    <!--********************************* BODY. *********************************-->
+
+    <section>
+
+      <textarea name="fsm_src" id="fsm_src" rows="16">
+let group = {
+  course: "CS 3410",
+  members: [
+    {name: "Ajay", age: 22},
+    {name: "Seung", age: 23},
+    {name: "Adi", age: 22},
+  ],
+}
+
+match(group)(
+  ({ club, members }) => console.log("club members", members),
+  ({ course, members: [{name:first}, ...rest]}) => {
+    console.log(`Course of ${first} and ${rest.length} more`)
+  },
+  ({ course, members }) => {
+    console.log("it's a course, but there's no members")
+  },
+)
+      </textarea>
+      <br>
+      <pre id="errors"></pre>
+      <button id="run_button">Run</button>
+      <button id="clear_button">Clear</button>
+      <span id="downloads"></span>
+
+      <div id="code"></div>
+
+
+      <div id="d3out"></div>
+      <div id="svg-wrapper"></div>
+      <script src="main.js"></script>
+
+    </section>
+
+    <!--******************************** FOOTER. ********************************-->
+    <footer>
+
+    </footer>
+  </div>
+</body>
+
+</html>

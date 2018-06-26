@@ -1,0 +1,76 @@
+/**
+     * MUI Tabs module
+     */
+
+.mui-tabs__bar {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+  background-color: transparent;
+  white-space: nowrap;
+  overflow-x: auto;
+  padding-bottom: 14px;
+}
+
+.mui-tabs__bar>li {
+  display: inline-block;
+  width: auto;
+  float: auto;
+  border-right: none;
+  height: auto;
+}
+
+.mui-tabs__bar>li>a {
+  display: block;
+  white-space: nowrap;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.87);
+  cursor: default;
+  height: 36px;
+  line-height: 40px;
+  padding-left: 12px;
+  padding-right: 12px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.mui-tabs__bar>li>a:hover {
+  text-decoration: none;
+}
+
+.mui-tabs__bar>li.mui--is-active {
+  border-bottom: 2px solid #2196F3;
+}
+
+.mui-tabs__bar>li.mui--is-active>a {
+  color: #2196F3;
+}
+
+.mui-tabs__bar.mui-tabs__bar--justified {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.mui-tabs__bar.mui-tabs__bar--justified>li {
+  display: table-cell;
+}
+
+.mui-tabs__bar.mui-tabs__bar--justified>li>a {
+  text-align: center;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.mui-tabs__pane {
+  display: none;
+  height: 100%;
+  overflow: scroll;
+}
+
+.mui-tabs__pane.mui--is-active {
+  display: block;
+}
