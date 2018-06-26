@@ -57,7 +57,6 @@ const matchEmpty = (v, n) => v === n;
 /************************************ Main ************************************/
 
 const matches = (v, n) => {
-  console.log(n, 'test')
   if (n === undefined) return matchEmpty(v, n);
   if (n.type === 'Identifier') return matchIdentifier(v, n.name);
   if (n.type === 'ObjectPattern') return matchObjectPattern(v, n.properties);
