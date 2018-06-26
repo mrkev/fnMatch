@@ -2,10 +2,7 @@
 <img src="https://github.com/mrkev/fnMatch/raw/master/docs/img/cheesy_logo.png">
 </p>
 
-<div>
-<a href="https://travis-ci.org/mrkev/fnMatch"><img style="float: right;" src="https://travis-ci.org/mrkev/fnMatch.svg?branch=master" alt="Build Status" /></a>
-<h1>fnMatch</h1>
-</div>
+# fnMatch
 
 This is a very simple implementation of pattern matching using **no syntax extensions**. That means you can use it **without a transpiler**; just include it on your project/website.
 
@@ -196,3 +193,8 @@ func(([x, y]) => console.log(x, y))([1, 2, 3])   // logs nothing, doesn't match
 This was very quickly thrown together, so it's very much not optimized in any way. See the source for details on maybe not low-hanging, but definitley juicy performance improvements that could be made.
 
 Happy matching!
+
+--------------
+
+[![Build Status](https://travis-ci.org/mrkev/fnMatch.svg?branch=master)](https://travis-ci.org/mrkev/fnMatch)
+[![Coverage Status](https://coveralls.io/repos/github/mrkev/fnMatch/badge.svg?branch=master)](https://coveralls.io/github/mrkev/fnMatch?branch=master)
