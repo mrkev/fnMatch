@@ -2,7 +2,7 @@
 <img src="https://github.com/mrkev/fnMatch/raw/master/docs/img/cheesy_logo.png">
 </p>
 
-# fnMatch
+# fnMatch [![Build Status](https://travis-ci.org/mrkev/fnMatch.svg?branch=master)](https://travis-ci.org/mrkev/fnMatch)
 
 This is a very simple implementation of pattern matching using **no syntax extensions**. That means you can use it **without a transpiler**; just include it on your project/website.
 
