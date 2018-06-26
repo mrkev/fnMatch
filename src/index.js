@@ -72,8 +72,26 @@ const matches = (v, n) => {
 const match = (v) => (...cases) => {
   const patterns = cases
     .map(pat => pat.toString())
+    .map(str =>
+      // Trick to make it work with anonymous functions
+      !str.match(/function\s*\(/) ? str : `let x = ${str}`
+    )
     .map(str => cherow.parseScript(str))
-    .map(ast => ast.body[0].expression.params[0]); // => ArrowFunctionExpression
+    .map(({ body: [node] }) => {
+      const decl = {
+        // ArrowFunctionExpression: () => {}
+        'ExpressionStatement': ({ expression }) =>
+          expression.params[0],
+        // function x () {}
+        'FunctionDeclaration': ({ params }) =>
+          params[0],
+        // FunctionExpression: function () {} (from trick above)
+        'VariableDeclaration': ({ declarations }) =>
+          declarations[0].init.params[0]
+      }[node.type]
+      if (!decl) throw new Error("Invalid pattern: " + node.type)
+      return decl(node)
+    });
 
   for (let match = 0; match < patterns.length; match++)
     if (matches(v, patterns[match]))
