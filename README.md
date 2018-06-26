@@ -1,4 +1,6 @@
-<center>![fnMatch](./docs/img/cheesy_logo.png)</center>
+<p align="center">
+<img src="https://github.com/mrkev/fnMatch/raw/master/docs/img/cheesy_logo.png">
+</p>
 
 # fnMatch
 
