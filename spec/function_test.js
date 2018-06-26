@@ -1,6 +1,6 @@
 const {
   match, func
-} = require('./index');
+} = require('../src');
 
 const value = {
   name: 'Ajay',
@@ -19,4 +19,6 @@ let getResult = func(
   destructResult
 );
 
-console.log(getResult({notes: "This works!"}))
+test('first contact', () => {
+  expect(getResult({notes: "This works!"})).toBe("This works!");
+});
