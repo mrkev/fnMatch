@@ -1,10 +1,32 @@
 <p align="center">
-<img src="https://github.com/mrkev/fnMatch/raw/master/docs/img/cheesy_logo.png">
+<img width=250 src="https://github.com/mrkev/fnMatch/raw/master/docs/img/cheesy_logo.png">
 </p>
 
 # fnMatch
 
 This is a very simple implementation of pattern matching using **no syntax extensions**. That means you can use it **without a transpiler**; just include it on your project/website.
+
+## Quick example:
+
+You can do this in **OCaml**:
+
+```ocaml
+let rec fib n = match n with
+  | 0 -> 1
+  | 1 -> 1
+  | x -> fib (x-2) + fib (x-1)
+```
+
+**JavaScript** using fnMatch:
+
+```javascript
+let fib = (n) => match(n)(
+  (_ = 0) => 1
+  (_ = 1) => 1
+  (x) => fib(x-2) + fib(x-1)
+);
+```
+
 
 ## Installation
 
@@ -22,13 +44,18 @@ npm i fnMatch
 
 ## Usage
 
-Instead of extending the language, it just uses **_functions_**. That's it.
+Instead of extending the language, it just uses **_functions_**. That's it. Just import `fnMatch` anywhere:
+
+```javascript
+const { match, func } = require('fnMatch');
+```
 
 It supports:
 
 - Shape matching through **object deconstruction**:
 
 ```javascript
+
 let group = {
   course: "CS 3410",
   members: [
@@ -87,7 +114,7 @@ OCaml:
 let rec fib = function
   | 0 -> 1
   | 1 -> 1
-  | x -> (fib x-2) + (fib x-1)
+  | x -> fib (x-2) + fib (x-1)
 ```
 
 JavaScript:
@@ -96,7 +123,7 @@ JavaScript:
 let fib = func(
   (_ = 0) => 1
   (_ = 1) => 1
-  (x) => (fib x-2) + (fib x-1)
+  (x) => fib(x-2) + fib(x-1)
 );
 ```
 
