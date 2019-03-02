@@ -72,7 +72,7 @@ match(group)(
 )
 ```
 
-- Value matching through **default values**:
+- Value matching through **default value syntax**:
 
 ```javascript
 
