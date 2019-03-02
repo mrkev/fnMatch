@@ -21,8 +21,8 @@ let rec fib n = match n with
 
 ```javascript
 let fib = (n) => match(n)(
-  (_ = 0) => 1,
-  (_ = 1) => 1,
+  (x = 0) => 1,
+  (x = 1) => 1,
   (x) => fib(x-2) + fib(x-1)
 );
 ```
