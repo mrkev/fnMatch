@@ -17,7 +17,6 @@ const ast_equals_value = (a, v) => {
   return equal(v, x);
 };
 
-
 /********************************** Matchers **********************************/
 
 /** ({x, y, z}) => ... */
@@ -65,41 +64,42 @@ const matches = (v, n) => {
   }
   if (n.type === 'ArrayPattern') {
     return matchArrayPattern(v, n.elements);
-  }
-  else return false;
+  } else return false;
 };
 
-const match = (v) => (...cases) => {
-  const patterns = cases
-    .map(pat => pat.toString())
-    .map(str =>
-      // Trick to make it work with anonymous functions
-      !str.match(/function\s*\(/) ? str : `let x = ${str}`
-    )
-    .map(str => cherow.parseScript(str))
-    .map(({ body: [node] }) => {
-      const decl = {
-        // ArrowFunctionExpression: () => {}
-        'ExpressionStatement': ({ expression }) =>
-          expression.params[0],
-        // function x () {}
-        'FunctionDeclaration': ({ params }) =>
-          params[0],
-        // FunctionExpression: function () {} (from trick above)
-        'VariableDeclaration': ({ declarations }) =>
-          declarations[0].init.params[0]
-      }[node.type]
-      if (!decl) throw new Error("Invalid pattern: " + node.type)
-      return decl(node)
-    });
+const match =
+  (v) =>
+  (...cases) => {
+    const patterns = cases
+      .map((pat) => pat.toString())
+      .map((str) =>
+        // Trick to make it work with anonymous functions
+        !str.match(/function\s*\(/) ? str : `let x = ${str}`
+      )
+      .map((str) => cherow.parseScript(str))
+      .map(({ body: [node] }) => {
+        const decl = {
+          // ArrowFunctionExpression: () => {}
+          ExpressionStatement: ({ expression }) => expression.params[0],
+          // function x () {}
+          FunctionDeclaration: ({ params }) => params[0],
+          // FunctionExpression: function () {} (from trick above)
+          VariableDeclaration: ({ declarations }) =>
+            declarations[0].init.params[0],
+        }[node.type];
+        if (!decl) throw new Error('Invalid pattern: ' + node.type);
+        return decl(node);
+      });
 
-  for (let match = 0; match < patterns.length; match++)
-    if (matches(v, patterns[match]))
-      return cases[match](v);
+    for (let match = 0; match < patterns.length; match++)
+      if (matches(v, patterns[match])) return cases[match](v);
 
-  return undefined;
-};
+    return undefined;
+  };
 
-const func = (...cases) => (v) => match(v)(...cases);
+const func =
+  (...cases) =>
+  (v) =>
+    match(v)(...cases);
 
 module.exports = { match, func };
