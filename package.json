@@ -1,6 +1,6 @@
 {
   "name": "fnmatch",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Function-based matching",
   "main": "src/index.js",
   "scripts": {
