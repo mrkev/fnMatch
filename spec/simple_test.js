@@ -1,16 +1,14 @@
-const {func} = require('../src');
-
+const { func } = require("../src");
 
 const simple = func(
-  () => 'undefined',
-  (_) => 'anything',
+  () => "undefined",
+  (_) => "anything"
 );
 
-test('undefined', () => {
-  expect(simple()).toBe('undefined');
+test("undefined", () => {
+  expect(simple()).toBe("undefined");
 });
 
-test('anything', () => {
-  expect(simple(3)).toBe('anything');
+test("anything", () => {
+  expect(simple(3)).toBe("anything");
 });
-

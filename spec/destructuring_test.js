@@ -1,30 +1,38 @@
-const {func} = require('../src');
+const { func } = require("../src");
 
-const contacts = [{
+const contacts = [
+  {
     name: {
-      first: 'Ajay',
+      first: "Ajay",
     },
-    last: 'Gandhi',
+    last: "Gandhi",
   },
   {
     name: {
-      first: 'Seunghee',
-      last: 'Han',
+      first: "Seunghee",
+      last: "Han",
     },
   },
   {
-    name: 'Evil Galactic Empire, Inc.',
-    kind: 'company',
+    name: "Evil Galactic Empire, Inc.",
+    kind: "company",
   },
 ];
 
-const first_company = func(([{kind = 'company', name}, ..._]) => name)
-const first_contact = func(([{name: {first}}, ..._]) => first);
+const first_company = func(([{ kind = "company", name }, ..._]) => name);
+const first_contact = func(
+  ([
+    {
+      name: { first },
+    },
+    ..._
+  ]) => first
+);
 
-test('no company', () => {
+test("no company", () => {
   expect(first_company(contacts)).toBe(undefined);
 });
 
-test('first contact', () => {
-  expect(first_contact(contacts)).toBe('Ajay');
+test("first contact", () => {
+  expect(first_contact(contacts)).toBe("Ajay");
 });

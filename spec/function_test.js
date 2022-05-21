@@ -1,24 +1,23 @@
-const {
-  match, func
-} = require('../src');
+const { match, func } = require("../src");
 
 const value = {
-  name: 'Ajay',
+  name: "Ajay",
   value: {
     x: 34,
   },
 };
 
-function destructNotes ({notes}) { return notes; }
+function destructNotes({ notes }) {
+  return notes;
+}
+
 let destructErrors = ({ errors }) => errors;
-let destructResult = function ({result}) { return result; }
+let destructResult = function ({ result }) {
+  return result;
+};
 
-let getResult = func(
-  destructNotes,
-  destructErrors,
-  destructResult
-);
+let getResult = func(destructNotes, destructErrors, destructResult);
 
-test('first contact', () => {
-  expect(getResult({notes: "This works!"})).toBe("This works!");
+test("first contact", () => {
+  expect(getResult({ notes: "This works!" })).toBe("This works!");
 });
