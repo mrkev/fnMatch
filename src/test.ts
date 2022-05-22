@@ -1,8 +1,16 @@
-const { match } = require("./index");
+import { match } from "./index";
 
-const value = {
+type Person = {
+  name: string;
+  age?: number;
+  props?: {
+    x: number;
+  };
+};
+
+const value: Person = {
   name: "Ajay",
-  value: {
+  props: {
     x: 34,
   },
 };
@@ -31,7 +39,7 @@ const result = match(value)(
   (x = "Ajay") => "Hello boi!",
 
   // some x
-  (x) => `Hello ${x}`
+  (x: any) => `Hello ${x}`
 );
 
 console.log(result);
@@ -47,7 +55,7 @@ console.log(result);
  *    let f = func(...)
  */
 
-const { func } = require("./index");
+import { func } from "./index";
 
 const format = func(
   (x = 42) => "the answer",

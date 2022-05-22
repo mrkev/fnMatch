@@ -7,15 +7,32 @@ const output = {
   libraryTarget: "umd",
 };
 
+const tsSetup = {
+  resolve: {
+    extensions: [".ts", ".js"],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
+    ],
+  },
+};
+
 const config = {
-  entry: "./src/index.js",
+  entry: "./src/index.ts",
   optimization: {
     minimize: true,
   },
   output,
   mode: "production",
+  ...tsSetup,
 };
 
+// output to both ./dist and ./docs/js
 module.exports = [
   config,
   {
