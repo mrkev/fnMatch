@@ -39,7 +39,7 @@ const result = match(value)(
   (x = "Ajay") => "Hello boi!",
 
   // some x
-  (x: any) => `Hello ${x}`
+  (x) => `Hello ${x}`
 );
 
 console.log(result);

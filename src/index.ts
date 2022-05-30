@@ -87,9 +87,16 @@ type ExtractReturnTypes<T extends ((...args: any[]) => any)[]> = [
 type MatchResult<T extends ((...args: any[]) => any)[]> =
   ExtractReturnTypes<T>[number];
 
+type PatternArg<VL> =
+  // VL extends Array<any>
+  //   ? Array<any>
+  //   :
+  // VL extends Record<any, any> ? Partial<VL> :
+  any;
+
 export const match =
   <VL>(v: VL) =>
-  <CS extends ((arg: any) => any)[]>(
+  <CS extends ((arg: PatternArg<VL>) => any)[]>(
     ...cases: CS
   ): MatchResult<typeof cases> | undefined => {
     const patterns = cases
@@ -133,7 +140,7 @@ export const match =
 
     for (let match = 0; match < patterns.length; match++) {
       if (matches(v, patterns[match])) {
-        return cases[match](v);
+        return cases[match](v as any);
       }
     }
 
