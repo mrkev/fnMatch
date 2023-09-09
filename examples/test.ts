@@ -1,4 +1,4 @@
-import { match } from "./index";
+import { match } from "../src/index";
 
 type Person = {
   name: string;
@@ -55,7 +55,7 @@ console.log(result);
  *    let f = func(...)
  */
 
-import { func } from "./index";
+import { func } from "../src/index";
 
 const format = func(
   (x = 42) => "the answer",
@@ -64,7 +64,7 @@ const format = func(
   () => "some number",
 );
 
-[...Array(20).keys()].map((n) => console.log(format(n)));
+Array.from(Array(20).keys()).map((n) => console.log(format(n)));
 
 console.log(
   match({ members: [1, 2, 3, 4] })(

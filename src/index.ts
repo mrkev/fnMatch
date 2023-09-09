@@ -76,26 +76,18 @@ const matches = (v: unknown, n: Node) => {
   } else return false;
 };
 
-type ExtractReturnTypes<T extends ReadonlyArray<(...args: any[]) => any>> = [
-  ...{
-    [K in keyof T]: T[K] extends (...args: any[]) => infer R ? R : never;
-  },
-];
+type ZeroCase = () => any;
+type OneCase = (arg: any) => any;
+type AnyCase = (arg: any) => any | (() => any);
 
-type MatchResult<T extends ReadonlyArray<(...args: any[]) => any>> =
-  ExtractReturnTypes<T>[number];
-
-type PatternArg<VL> =
-  // VL extends Array<any>
-  //   ? Array<any>
-  //   :
-  // VL extends Record<any, any> ? Partial<VL> :
-  any;
+type MatchResult<CS extends AnyCase[]> = [] extends Required<
+  Parameters<CS[number]>
+>
+  ? ReturnType<CS[number]>
+  : ReturnType<CS[number]> | undefined;
 
 export function match<VL>(v: VL) {
-  return <CS extends ReadonlyArray<(arg: PatternArg<VL>) => any>>(
-    ...cases: CS
-  ): MatchResult<typeof cases> | undefined => {
+  return <CS extends AnyCase[]>(...cases: CS): MatchResult<CS> => {
     const patterns = cases
       .map((pat) => pat.toString())
       .map((str) =>
@@ -142,13 +134,58 @@ export function match<VL>(v: VL) {
     }
 
     // Can we ensure exhaustiveness?
-    return undefined;
+    return undefined as any;
   };
 }
 
-export function func<
-  T extends (arg: any) => any = (arg: any) => any,
-  CS extends T[] = T[],
->(...cases: CS) {
+export function func<T extends AnyCase, CS extends AnyCase[] = T[]>(
+  ...cases: CS
+) {
   return <VL>(v: VL) => match(v)(...cases);
 }
+
+///////////////// WORKS.
+/// if () => 2 ........ no undefined in return
+/// if not ............... undefined in return
+
+// type RetT<CS extends AnyCase[]> = [] extends Required<Parameters<CS[number]>>
+//   ? [true, ReturnType<CS[number]>]
+//   : [false, ReturnType<CS[number]> | undefined];
+
+// declare function foo<CS extends AnyCase[]>(...args: CS): RetT<CS>;
+
+// const a = foo(
+//   (x = "foo") => 2,
+//   // () => 2,
+// );
+
+// const x = [() => 2];
+// type Y = Required<Parameters<(typeof x)[number]>>;
+
+// type Foo = [] | [x: unknown];
+
+// type X = [] extends Foo ? true : false;
+
+// const b = match(2)(
+//   // some object with name and age, where name is some x === "Ajay"
+//   ({ name: x = "Ajay", age }) => {
+//     return age < 18 ? "Hello young boi!" : "Hello boi!";
+//   },
+
+//   // some object with name and age, where name is some x === "Ajay"
+//   ({ name, age }) => `Hello ${age} years old ${name}`,
+
+//   // some array, where the first element is an object with
+//   // name. Call name "n", call the rest of the array "rest".
+//   ([{ name: n }, ...rest]) => {
+//     return `Hello ${n}, and ${rest.length} others!`;
+//   },
+
+//   // some x equal to "hello"
+//   (x = "Ajay") => "Hello boi!",
+
+//   // some x
+//   (x) => `Hello ${x}`,
+
+//   () => "ello",
+// );
