@@ -39,7 +39,7 @@ const result = match(value)(
   (x = "Ajay") => "Hello boi!",
 
   // some x
-  (x) => `Hello ${x}`
+  (x) => `Hello ${x}`,
 );
 
 console.log(result);
@@ -61,7 +61,7 @@ const format = func(
   (x = 42) => "the answer",
   (x = 10) => "diez",
   (x = 5) => "one hand",
-  () => "some number"
+  () => "some number",
 );
 
 [...Array(20).keys()].map((n) => console.log(format(n)));
@@ -69,6 +69,6 @@ const format = func(
 console.log(
   match({ members: [1, 2, 3, 4] })(
     ({ members: { list: x } }) => console.log("doesn't match"),
-    ({ members: [x, ...rest] }) => console.log(x, rest)
-  )
+    ({ members: [x, ...rest] }) => console.log(x, rest),
+  ),
 );

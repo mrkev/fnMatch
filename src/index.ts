@@ -28,7 +28,7 @@ const ast_equals_value = (a: Node, v: unknown): boolean => {
 /** ({x, y, z}) => ... */
 const matchObjectPattern = (
   v: any,
-  ps: (AssignmentProperty | RestElement)[]
+  ps: (AssignmentProperty | RestElement)[],
 ) => {
   if (typeof v !== "object") return false;
   for (var i = 0; i < ps.length; i++) {
@@ -76,15 +76,13 @@ const matches = (v: unknown, n: Node) => {
   } else return false;
 };
 
-type AnyFunc = (...args: any[]) => any;
-
-type ExtractReturnTypes<T extends ((...args: any[]) => any)[]> = [
+type ExtractReturnTypes<T extends ReadonlyArray<(...args: any[]) => any>> = [
   ...{
     [K in keyof T]: T[K] extends (...args: any[]) => infer R ? R : never;
-  }
+  },
 ];
 
-type MatchResult<T extends ((...args: any[]) => any)[]> =
+type MatchResult<T extends ReadonlyArray<(...args: any[]) => any>> =
   ExtractReturnTypes<T>[number];
 
 type PatternArg<VL> =
@@ -94,16 +92,15 @@ type PatternArg<VL> =
   // VL extends Record<any, any> ? Partial<VL> :
   any;
 
-export const match =
-  <VL>(v: VL) =>
-  <CS extends ((arg: PatternArg<VL>) => any)[]>(
+export function match<VL>(v: VL) {
+  return <CS extends ReadonlyArray<(arg: PatternArg<VL>) => any>>(
     ...cases: CS
   ): MatchResult<typeof cases> | undefined => {
     const patterns = cases
       .map((pat) => pat.toString())
       .map((str) =>
         // Trick to make it work with anonymous functions
-        !str.match(/function\s*\(/) ? str : `let x = ${str}`
+        !str.match(/function\s*\(/) ? str : `let x = ${str}`,
       )
       .map((str) => parseScript(str))
       .map(({ body: [node] }) => {
@@ -144,10 +141,14 @@ export const match =
       }
     }
 
+    // Can we ensure exhaustiveness?
     return undefined;
   };
+}
 
-export const func =
-  <CS extends ((arg: any) => any)[]>(...cases: CS) =>
-  <VL>(v: VL) =>
-    match(v)(...cases);
+export function func<
+  T extends (arg: any) => any = (arg: any) => any,
+  CS extends T[] = T[],
+>(...cases: CS) {
+  return <VL>(v: VL) => match(v)(...cases);
+}
