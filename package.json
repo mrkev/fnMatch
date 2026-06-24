@@ -1,9 +1,12 @@
 {
   "name": "fnmatch",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Function-based matching",
   "main": "dist/fnMatch.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "jest",
     "build": "npx webpack"
@@ -25,5 +28,17 @@
     "typescript": "^5.2.2",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
-  }
+  },
+  "homepage": "https://aykev.dev/fnMatch/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mrkev/fnmatch.git"
+  },
+  "keywords": [
+    "pattern",
+    "matching",
+    "pattern-matching",
+    "functional",
+    "ocaml"
+  ]
 }
