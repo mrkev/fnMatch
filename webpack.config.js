@@ -32,9 +32,19 @@ const config = {
   ...tsSetup,
 };
 
+// Keep runtime dependencies external so the published package doesn't bundle
+// (and double-ship) them. Consumers resolve these from their own node_modules.
+const externals = {
+  astring: "astring",
+  cherow: "cherow",
+  "fast-deep-equal": "fast-deep-equal",
+};
+
 // output to both ./dist and ./docs/js
 module.exports = [
-  config,
+  // npm package build: dependencies stay external.
+  { ...config, externals },
+  // docs/js browser build: bundle everything so it runs standalone.
   {
     ...config,
     output: { ...output, path: path.resolve(__dirname, "docs", "js") },
