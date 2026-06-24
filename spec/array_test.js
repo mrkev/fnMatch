@@ -1,4 +1,4 @@
-const { func } = require("../src");
+import { func } from "../src";
 
 let arrayFunc = func(
   ([a, b, c]) => `${a}, ${b}, ${c}`,

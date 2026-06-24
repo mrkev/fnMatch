@@ -1,4 +1,4 @@
-const { match, func } = require("../src");
+import { match, func } from "../src";
 
 const value = {
   name: "Ajay",

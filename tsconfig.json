@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "types": ["node", "jest"],
+    "types": ["node", "vitest/globals"],
     "declaration": true,
     "allowJs": true,
     "skipLibCheck": true,
