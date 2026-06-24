@@ -4,12 +4,22 @@
   "description": "Function-based matching",
   "main": "dist/fnMatch.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/fnMatch.js"
+    }
+  },
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": ">=12"
+  },
   "scripts": {
     "test": "jest",
-    "build": "npx webpack"
+    "build": "npx webpack",
+    "prepublishOnly": "npm run build && npm test"
   },
   "author": "Kevin Chavez <keh222@cornell.edu> (http://mrkev.github.io)",
   "license": "ISC",
@@ -34,7 +44,7 @@
   "homepage": "https://aykev.dev/fnMatch/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mrkev/fnmatch.git"
+    "url": "git+https://github.com/mrkev/fnmatch.git"
   },
   "keywords": [
     "pattern",
